@@ -7,3 +7,9 @@
 .nav__link:active,
 .nav__link--active{background-color: var(--main);}
 .nav__action{height: inherit;display: flex;align-items: center;text-align: center;padding: 0 1rem;}
+
+@media screen and (max-width: 540px){
+    .nav{display: block; text-align: center;}
+    .nav__logo{text-align: center;}
+    .nav__list{align-items: center;justify-content: center;background-color: var(--main); }
+}
