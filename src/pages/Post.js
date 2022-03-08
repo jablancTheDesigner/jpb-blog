@@ -3,28 +3,32 @@ import { useParams } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import "../styles/postDetails.css";
 import { useNavigate } from "react-router-dom";
+import { fetchPosts } from "../firebase";
 
-export default function Post({ loading, getPosts, setLoading }) {
+export default function Post({ loading, setLoading }) {
   const params = useParams();
   const slug = params.slug;
   const navigate = useNavigate();
 
   const [post, setPost] = useState(null);
 
+  const getPost = async () => {
+    const posts = await fetchPosts();
+    const filteredPost = posts.find((post) => post.slug === slug);
+    setLoading(false);
+
+    if (!filteredPost) {
+      navigate("/404");
+      return;
+    }
+
+    setPost(filteredPost);
+  };
+
   useEffect(() => {
     setLoading(true);
-    getPosts().then((data) => {
-      const filteredPost = data.find((post) => post.slug === slug);
-      setLoading(false);
-
-      if (!filteredPost) {
-        navigate("/404");
-        return;
-      }
-
-      setPost(filteredPost);
-    });
-  }, [getPosts, navigate, setLoading, slug]);
+    getPost();
+  }, []);
 
   return (
     <PageLayout loading={loading} className="post-detail">

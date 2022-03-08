@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { database, auth } from "../firebase";
+import { database, auth, fetchPosts } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import PageLayout from "../components/PageLayout";
 import Masonry from "react-masonry-css";
 
-export default function Home({ loading, setLoading, isLoggedIn, getPosts }) {
+export default function Home({ loading, setLoading, isLoggedIn }) {
   const [blogPosts, setBlogPosts] = useState([]);
   const breakpointColumnsObj = {
     default: 3,
@@ -13,26 +13,27 @@ export default function Home({ loading, setLoading, isLoggedIn, getPosts }) {
     500: 1,
   };
 
+  const getPosts = async () => {
+    const posts = await fetchPosts();
+
+    setBlogPosts(posts);
+    setLoading(false);
+  };
+
   const deletePost = async (id) => {
     const postDoc = doc(database, "posts", id);
     await deleteDoc(postDoc);
-    getPosts().then((data) => {
-      setLoading(false);
-      setBlogPosts(data);
-    });
+    getPosts();
   };
 
   useEffect(() => {
     setLoading(true);
-    getPosts().then((data) => {
-      setLoading(false);
-      setBlogPosts(data);
-    });
-  }, [getPosts, setLoading]);
+    getPosts();
+  }, []);
 
   return (
     <>
-      <h1 class="home__title">Yerrrp!</h1>
+      <h1 className="home__title">Yerrrp!</h1>
       <PageLayout className="home" loading={loading}>
         <Masonry
           breakpointCols={breakpointColumnsObj}

@@ -28,7 +28,7 @@ export default function CreatePost({ isLoggedIn }) {
     if (!isLoggedIn) {
       navigate("/login");
     }
-  }, [isLoggedIn, navigate]);
+  }, []);
 
   return (
     <div className="create-post">
