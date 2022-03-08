@@ -12,23 +12,22 @@ export default function Post({ loading, setLoading }) {
 
   const [post, setPost] = useState(null);
 
-  const getPost = async () => {
-    const posts = await fetchPosts();
-    const filteredPost = posts.find((post) => post.slug === slug);
-    setLoading(false);
-
-    if (!filteredPost) {
-      navigate("/404");
-      return;
-    }
-
-    setPost(filteredPost);
-  };
-
   useEffect(() => {
     setLoading(true);
+    const getPost = async () => {
+      const posts = await fetchPosts();
+      const filteredPost = posts.find((post) => post.slug === slug);
+      setLoading(false);
+
+      if (!filteredPost) {
+        navigate("/404");
+        return;
+      }
+
+      setPost(filteredPost);
+    };
     getPost();
-  }, []);
+  }, [navigate, slug, setLoading]);
 
   return (
     <PageLayout loading={loading} className="post-detail">

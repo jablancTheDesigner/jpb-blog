@@ -13,23 +13,21 @@ export default function Home({ loading, setLoading, isLoggedIn }) {
     500: 1,
   };
 
-  const getPosts = async () => {
-    const posts = await fetchPosts();
-
-    setBlogPosts(posts);
-    setLoading(false);
-  };
-
   const deletePost = async (id) => {
     const postDoc = doc(database, "posts", id);
     await deleteDoc(postDoc);
-    getPosts();
   };
 
   useEffect(() => {
     setLoading(true);
+    const getPosts = async () => {
+      const posts = await fetchPosts();
+      setBlogPosts(posts);
+      setLoading(false);
+    };
+
     getPosts();
-  }, []);
+  }, [setLoading]);
 
   return (
     <>
