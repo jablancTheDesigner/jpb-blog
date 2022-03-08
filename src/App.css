@@ -7,7 +7,6 @@
   font-size:7rem;
   margin-bottom:2rem;
 }
-nav,
 main {
   padding: 1rem;
 }
@@ -69,7 +68,7 @@ main {
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
   border-bottom: 4px solid var(--main);
-  line-height: 1.4;
+  line-height: 1.2;
   color: var(--second);
   padding-right: 2.5rem;
 }
@@ -85,6 +84,16 @@ main {
   line-height: 1.3;
   color: var(--second);
 }
+
+.card__excerpt h1,
+.card__excerpt h2,
+.card__excerpt h3,
+.card__excerpt p{
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 .card__author{
   font-size: 1rem;
   margin: 0;
@@ -101,9 +110,11 @@ main {
   padding: 16px;
 }
 
-.card-content a {
+.card a {
   display: inline-block;
   margin-top: 12px;
+  color: var(--main);
+  text-decoration: none;
 }
 
 /* input */
@@ -146,6 +157,30 @@ form button{
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+blockquote {
+  border-left: 10px solid var(--main);
+  margin: 1.5em 0;
+  padding:1rem;
+  position: relative;
+}
+
+blockquote p {
+  display: inline;
+}
+blockquote:before,
+blockquote::after{
+  color: var(--main);
+  position:relative;
+  line-height: 0.1em;
+  font-size: 5em;
+}
+
+blockquote:before{
+  content: "\201C";
+  left:5px;
+  top: 0.3em;
 }
 
 @media screen and (max-width:1024px){

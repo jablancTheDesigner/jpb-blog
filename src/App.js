@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { database } from "./firebase";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import Post from "./pages/Post";
@@ -13,6 +15,22 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn")
   );
+
+  const getPosts = () => {
+    const postListRef = collection(database, "posts");
+    return new Promise(async (res, rej) => {
+      const data = await getDocs(postListRef);
+      const docs = data.docs;
+      const posts = docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+          slug: doc.id,
+        };
+      });
+      res(posts);
+    });
+  };
 
   return (
     <>
@@ -27,6 +45,7 @@ function App() {
                   loading={loading}
                   setLoading={setLoading}
                   isLoggedIn={isLoggedIn}
+                  getPosts={getPosts}
                 />
               }
             />
@@ -35,11 +54,21 @@ function App() {
               element={<Login setIsLoggedIn={setIsLoggedIn} />}
             />
             <Route path="/404" element={<NoMatch />} />
-            <Route path="/:slug" element={<Post loading={loading} />} />
+            <Route
+              path="/:slug"
+              element={
+                <Post
+                  loading={loading}
+                  getPosts={getPosts}
+                  setLoading={setLoading}
+                />
+              }
+            />
             <Route
               path="/post/create"
               element={<CreatePost isLoggedIn={isLoggedIn} />}
             />
+            <Route path="/404" element={<NoMatch />} />
           </Routes>
         </main>
       </Router>

@@ -4,13 +4,12 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const config = {
-  apiKey: "AIzaSyA8nEM3fFELtHYhuCQ2wS9P8FLLxLjCPgM",
-  authDomain: "jpb-blog.firebaseapp.com",
-  databaseURL: "https://jpb-blog-default-rtdb.firebaseio.com",
-  projectId: "jpb-blog",
-  storageBucket: "jpb-blog.appspot.com",
-  messagingSenderId: "571732210603",
-  appId: "1:571732210603:web:aefad00c17da0c587858ee",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(config);

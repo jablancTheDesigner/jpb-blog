@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import "../styles/nav.css";
 
 export default function Nav({ isLoggedIn, setIsLoggedIn }) {
   let navigate = useNavigate();
@@ -15,21 +16,40 @@ export default function Nav({ isLoggedIn, setIsLoggedIn }) {
   };
 
   return (
-    <nav className="header">
-      <Link to={`/`}>Home</Link>
-      {isLoggedIn ? (
-        <>
-          {" | "}
-          <Link to={`/post/create`}>Create</Link>
-          {" | "}
-          <button onClick={signOutUser}>Logout</button>
-        </>
-      ) : (
-        <>
-          {" | "}
-          <Link to={`/login`}>Login</Link>
-        </>
-      )}
+    <nav className="nav">
+      <div className="nav__logo">
+        <h1 className="nav__title">
+          YERRP<small>the</small>BLOG
+        </h1>
+      </div>
+      <ul className="nav__list">
+        <li className="nav__link">
+          <Link to={`/`} className="nav__action">
+            Home
+          </Link>
+        </li>
+        {isLoggedIn && (
+          <>
+            <li className="nav__link">
+              <Link to={`/post/create`} className="nav__action">
+                Create
+              </Link>
+            </li>
+            <li className="nav__link">
+              <button onClick={signOutUser} className="nav__action">
+                Logout
+              </button>
+            </li>
+          </>
+        )}
+        {!isLoggedIn && (
+          <li className="nav__link">
+            <Link to={`/login`} className="nav__action">
+              Login
+            </Link>
+          </li>
+        )}
+      </ul>
     </nav>
   );
 }

@@ -5,44 +5,35 @@ import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import PageLayout from "../components/PageLayout";
 import Masonry from "react-masonry-css";
 
-export default function Home({ loading, setLoading, isLoggedIn }) {
+export default function Home({ loading, setLoading, isLoggedIn, getPosts }) {
   const [blogPosts, setBlogPosts] = useState([]);
-  const postListRef = collection(database, "posts");
   const breakpointColumnsObj = {
     default: 3,
     800: 2,
     500: 1,
   };
 
-  const getPosts = async () => {
-    const data = await getDocs(postListRef);
-    setBlogPosts(
-      data.docs.map((doc) => {
-        return {
-          ...doc.data(),
-          id: doc.id,
-          slug: doc.id,
-        };
-      })
-    );
-    setLoading(false);
-  };
-
   const deletePost = async (id) => {
     const postDoc = doc(database, "posts", id);
     await deleteDoc(postDoc);
-    getPosts();
+    getPosts().then((data) => {
+      setLoading(false);
+      setBlogPosts(data);
+    });
   };
 
   useEffect(() => {
     setLoading(true);
-    getPosts();
+    getPosts().then((data) => {
+      setLoading(false);
+      setBlogPosts(data);
+    });
   }, []);
 
   return (
     <>
+      <h1 class="home__title">Yerrrp!</h1>
       <PageLayout className="home" loading={loading}>
-        <h1 class="home__title">Yerrrp!</h1>
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
@@ -54,7 +45,9 @@ export default function Home({ loading, setLoading, isLoggedIn }) {
                 <div className="card__content">
                   <h1>
                     {blogPost.title}
-                    <span className="card__author">{`@${blogPost.author.name}`}</span>
+                    {blogPost.author && (
+                      <span className="card__author">{`@${blogPost.author.name}`}</span>
+                    )}
                   </h1>
 
                   {isLoggedIn && blogPost.author.id == auth.currentUser.uid && (
@@ -69,11 +62,10 @@ export default function Home({ loading, setLoading, isLoggedIn }) {
                   <div
                     className="card__excerpt"
                     dangerouslySetInnerHTML={{
-                      __html: `${blogPost.content.substring(0, 200)}
+                      __html: `${blogPost.content.substring(0, 200)} 
                       ${
-                        blogPost.content.length > 200
-                          ? `...<small><b>more</b></small>`
-                          : ``
+                        blogPost.content.length > 200 &&
+                        `...<small><b>more</b></small>`
                       }`,
                     }}
                   ></div>
