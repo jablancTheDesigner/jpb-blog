@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { database, auth } from "../firebase";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import PageLayout from "../components/PageLayout";
 import Masonry from "react-masonry-css";
 
@@ -28,7 +28,7 @@ export default function Home({ loading, setLoading, isLoggedIn, getPosts }) {
       setLoading(false);
       setBlogPosts(data);
     });
-  }, []);
+  }, [getPosts, setLoading]);
 
   return (
     <>
@@ -50,7 +50,7 @@ export default function Home({ loading, setLoading, isLoggedIn, getPosts }) {
                     )}
                   </h1>
 
-                  {isLoggedIn && blogPost.author.id == auth.currentUser.uid && (
+                  {isLoggedIn && blogPost.author.id === auth.currentUser.uid && (
                     <button
                       onClick={() => deletePost(blogPost.id)}
                       className="remove-post"

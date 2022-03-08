@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { database } from "./firebase";
 import Home from "./pages/Home";

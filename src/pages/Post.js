@@ -24,7 +24,7 @@ export default function Post({ loading, getPosts, setLoading }) {
 
       setPost(filteredPost);
     });
-  }, []);
+  }, [getPosts, navigate, setLoading, slug]);
 
   return (
     <PageLayout loading={loading} className="post-detail">
