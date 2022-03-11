@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import "../styles/nav.css";
+import "../styles/nav.scss";
 
 export default function Nav({ isLoggedIn, setIsLoggedIn }) {
   let navigate = useNavigate();

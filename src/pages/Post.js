@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
-import "../styles/postDetails.css";
+import "../styles/postDetails.scss";
 import { useNavigate } from "react-router-dom";
-import { fetchPosts } from "../firebase";
+import { database } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function Post({ loading, setLoading }) {
   const params = useParams();
@@ -15,19 +16,21 @@ export default function Post({ loading, setLoading }) {
   useEffect(() => {
     setLoading(true);
     const getPost = async () => {
-      const posts = await fetchPosts();
-      const filteredPost = posts.find((post) => post.slug === slug);
-      setLoading(false);
+      const docRef = doc(database, "posts", slug);
+      const docSnap = await getDoc(docRef);
 
-      if (!filteredPost) {
+      if (docSnap.exists()) {
+        setLoading(false);
+        setPost({
+          id: slug,
+          data: docSnap.data(),
+        });
+      } else {
         navigate("/404");
-        return;
       }
-
-      setPost(filteredPost);
     };
     getPost();
-  }, [navigate, slug, setLoading]);
+  }, [slug, setLoading, navigate]);
 
   return (
     <PageLayout loading={loading} className="post-detail">
@@ -35,13 +38,13 @@ export default function Post({ loading, setLoading }) {
         {post && (
           <>
             <h1 className="post-detail__title">
-              {post.title}
-              {post.author && (
-                <span className="card__author">{`@${post.author.name}`}</span>
+              {post.data.title}
+              {post.data.author && (
+                <span className="card__author">{`@${post.data.author.name}`}</span>
               )}
             </h1>
             <div
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: post.data.content }}
               className="post-detail__content"
             ></div>
           </>

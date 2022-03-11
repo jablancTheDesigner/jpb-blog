@@ -1,0 +1,17 @@
+.page-header{
+    line-height: 1.2;
+    width: 750px;
+    max-width: 50%;
+    margin: 1rem auto;
+    text-align: center;;
+
+    &__title{
+        font-size: 5rem;
+        text-transform: uppercase;
+    }
+
+    &__sub-title{
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth, database } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -20,6 +20,7 @@ export default function CreatePost({ isLoggedIn }) {
         name: auth.currentUser.displayName,
         id: auth.currentUser.uid,
       },
+      timestamp: serverTimestamp(),
     });
     navigate("/");
   };
@@ -54,7 +55,7 @@ export default function CreatePost({ isLoggedIn }) {
           />
         </div>
         <button type="submit" onClick={createPost}>
-          ceate
+          Create
         </button>
       </form>
     </div>

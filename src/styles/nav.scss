@@ -1,0 +1,60 @@
+.nav{
+    display: flex; 
+    justify-content: space-between;
+    gap:0.5rem;
+    min-height: 75px;
+
+    &__logo{
+        line-height:1;
+        color: white;
+        display: flex;
+        justify-content: center; 
+        padding: 1rem;
+        flex-direction: column;
+        text-align: left;
+    }
+    &__title{
+        font-size:2rem;
+        margin: 0;
+        font-weight: bold;
+    }
+    &__list{
+        padding: 0; 
+        margin: 0;
+        list-style: none;
+        display: flex;
+        min-height:inherit;
+     }
+    &__link{
+        height: 100%;
+        background-color: transparent; 
+        transition: ease-in 350ms;
+    }
+    &__link:hover,
+    &__link:active,
+    &__link--active{
+        background-color: var(--main);
+    }
+    &__action{
+        height: inherit;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    @media screen and (max-width: 540px){
+        display: block; 
+        text-align: center;
+
+        &__logo{
+            text-align: center;
+        }
+
+        &__list{
+            align-items: center;
+            justify-content: center;
+            background-color: var(--main); 
+        }
+    }
+}
