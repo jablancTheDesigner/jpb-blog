@@ -12,6 +12,7 @@ import {
 import PageLayout from "../components/PageLayout";
 import Masonry from "react-masonry-css";
 import PageHeader from "../components/PageHeader";
+import "../styles/card.scss";
 
 export default function Home({ loading, setLoading, isLoggedIn }) {
   const [blogPosts, setBlogPosts] = useState([]);

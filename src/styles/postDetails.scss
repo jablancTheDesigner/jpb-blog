@@ -12,5 +12,12 @@
         border-bottom: 5px solid var(--main);
         color: var(--main);
     }
+
+    &__content{
+        line-height: 1.4;
+    }
+
+    @media (max-width: 768px){
+    }
     
 }

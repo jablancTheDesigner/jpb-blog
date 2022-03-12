@@ -17,39 +17,41 @@ export default function Nav({ isLoggedIn, setIsLoggedIn }) {
 
   return (
     <nav className="nav">
-      <div className="nav__logo">
-        <h1 className="nav__title">
-          YERRP<small>the</small>BLOG
-        </h1>
-      </div>
-      <ul className="nav__list">
-        <li className="nav__link">
-          <Link to={`/`} className="nav__action">
-            Home
-          </Link>
-        </li>
-        {isLoggedIn && (
-          <>
-            <li className="nav__link">
-              <Link to={`/post/create`} className="nav__action">
-                Create
-              </Link>
-            </li>
-            <li className="nav__link">
-              <button onClick={signOutUser} className="nav__action">
-                Logout
-              </button>
-            </li>
-          </>
-        )}
-        {!isLoggedIn && (
+      <div className="nav__inner">
+        <div className="nav__logo">
+          <h1 className="nav__title">
+            YERRP<small>the</small>BLOG
+          </h1>
+        </div>
+        <ul className="nav__list">
           <li className="nav__link">
-            <Link to={`/login`} className="nav__action">
-              Login
+            <Link to={`/`} className="nav__action">
+              Home
             </Link>
           </li>
-        )}
-      </ul>
+          {isLoggedIn && (
+            <>
+              <li className="nav__link">
+                <Link to={`/post/create`} className="nav__action">
+                  Admin
+                </Link>
+              </li>
+              <li className="nav__link">
+                <button onClick={signOutUser} className="nav__action">
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+          {!isLoggedIn && (
+            <li className="nav__link">
+              <Link to={`/login`} className="nav__action">
+                Login
+              </Link>
+            </li>
+          )}
+        </ul>
+      </div>
     </nav>
   );
 }

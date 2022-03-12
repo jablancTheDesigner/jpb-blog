@@ -1,8 +1,13 @@
 .nav{
-    display: flex; 
-    justify-content: space-between;
-    gap:0.5rem;
-    min-height: 75px;
+
+    &__inner{
+        display: flex; 
+        justify-content: space-between;
+        gap:0.5rem;
+        min-height: 75px;
+        max-width: var(--container);
+        margin: 0 auto;
+    }
 
     &__logo{
         line-height:1;
