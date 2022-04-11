@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { database, auth } from "../firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import PageLayout from "../components/PageLayout";
 import Masonry from "react-masonry-css";
 import PageHeader from "../components/PageHeader";
@@ -29,7 +22,6 @@ export default function Home({ loading, setLoading, isLoggedIn }) {
   useEffect(() => {
     setLoading(true);
     const postsRef = collection(database, "posts");
-    const q = query(postsRef, orderBy("timestamp", "desc"));
     onSnapshot(postsRef, (snapshot) => {
       setLoading(false);
       setBlogPosts(
