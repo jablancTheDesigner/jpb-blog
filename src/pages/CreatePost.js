@@ -33,31 +33,40 @@ export default function CreatePost({ isLoggedIn }) {
 
   return (
     <div className="create-post">
-      <form className="create-post__form">
-        <div className="create-post__input-group">
-          <label className="create-post__label">title</label>
-          <input
-            className="create-post__input"
-            type="text"
-            name="title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div className="create-post__input-group">
-          <label className="create-post__label">content</label>
-          <CKEditor
-            editor={ClassicEditor}
-            data="<h1>Blog Post Content</h1>"
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              setContent(data);
-            }}
-          />
-        </div>
-        <button type="submit" onClick={createPost}>
-          Create
-        </button>
-      </form>
+      <div className="container">
+        <form className="create-post__form">
+          <div class="form-group">
+            <label for="title" class="form-label mt-4">
+              Title
+            </label>
+            <input
+              className="form-control"
+              type="text"
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className="create-post__input-group">
+            <label className="form-label mt-4">Content</label>
+            <CKEditor
+              editor={ClassicEditor}
+              data="<h1>Blog Post Content</h1>"
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setContent(data);
+              }}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="mt-4 btn btn-dark"
+            onClick={createPost}
+          >
+            Create
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

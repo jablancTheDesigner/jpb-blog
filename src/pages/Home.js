@@ -12,7 +12,6 @@ import {
 import PageLayout from "../components/PageLayout";
 import Masonry from "react-masonry-css";
 import PageHeader from "../components/PageHeader";
-import "../styles/card.scss";
 
 export default function Home({ loading, setLoading, isLoggedIn }) {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -31,7 +30,7 @@ export default function Home({ loading, setLoading, isLoggedIn }) {
     setLoading(true);
     const postsRef = collection(database, "posts");
     const q = query(postsRef, orderBy("timestamp", "desc"));
-    onSnapshot(q, (snapshot) => {
+    onSnapshot(postsRef, (snapshot) => {
       setLoading(false);
       setBlogPosts(
         snapshot.docs.map((doc) => {
@@ -46,53 +45,44 @@ export default function Home({ loading, setLoading, isLoggedIn }) {
 
   return (
     <>
-      <PageHeader
-        title="Yerrrp!"
-        subtitle="Get the latest insights of technologies, trends, and market. Learn More and Stay Ahead."
-      />
+      <PageHeader subtitle="Get the latest insights of technologies, trends, and market. Learn More and Stay Ahead." />
 
       <PageLayout className="home" loading={loading}>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        >
-          {blogPosts &&
-            blogPosts.map(({ id, data: { title, author, slug, content } }) => (
-              <div key={id} className="card">
-                <div className="card__content">
-                  <h1>
-                    {title}
-                    {author && (
-                      <span className="card__author">{`@${author.name}`}</span>
-                    )}
-                  </h1>
-
-                  {isLoggedIn && author.id === auth.currentUser.uid && (
-                    <button
-                      onClick={() => deletePost(id)}
-                      className="remove-post"
-                    >
-                      &#128465;
-                    </button>
-                  )}
-
-                  <div
-                    className="card__excerpt"
-                    dangerouslySetInnerHTML={{
-                      __html: `${content.substring(0, 200)} 
-                      ${
-                        content.length > 200 && `...<small><b>more</b></small>`
-                      }`,
-                    }}
-                  ></div>
-                  {content.length > 200 && (
-                    <Link to={`/${id}`}>Continue reading...</Link>
-                  )}
-                </div>
-              </div>
-            ))}
-        </Masonry>
+        <div className="container">
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {blogPosts &&
+              blogPosts.map(
+                ({ id, data: { title, author, slug, content } }) => (
+                  <div key={id} className="card border-primary mb-3">
+                    <div className="card-body">
+                      <h2 className="card-title fw-bolder">{title}</h2>
+                      {author && (
+                        <h6 className="card-subtitle mb-2 text-muted">{`@${author.name}`}</h6>
+                      )}
+                      <Link
+                        to={`/${id}`}
+                        className="card-link btn btn-dark btn-sm"
+                      >
+                        Read
+                      </Link>
+                      {isLoggedIn && author.id === auth.currentUser.uid && (
+                        <button
+                          onClick={() => deletePost(id)}
+                          className="card-link btn btn-outline-danger btn-sm"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )
+              )}
+          </Masonry>
+        </div>
       </PageLayout>
     </>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import "../styles/nav.scss";
+import "bootstrap";
 
 export default function Nav({ isLoggedIn, setIsLoggedIn }) {
   let navigate = useNavigate();
@@ -16,42 +16,71 @@ export default function Nav({ isLoggedIn, setIsLoggedIn }) {
   };
 
   return (
-    <nav className="nav">
-      <div className="nav__inner">
-        <div className="nav__logo">
-          <h1 className="nav__title">
+    <>
+      <form class="d-flex">
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          placeholder="Search"
+        />
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">
+          Search
+        </button>
+      </form>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <Link to={`/`} className="navbar-brand">
             YERRP<small>the</small>BLOG
-          </h1>
-        </div>
-        <ul className="nav__list">
-          <li className="nav__link">
-            <Link to={`/`} className="nav__action">
-              Home
-            </Link>
-          </li>
-          {isLoggedIn && (
-            <>
-              <li className="nav__link">
-                <Link to={`/post/create`} className="nav__action">
-                  Admin
+          </Link>
+
+          <button
+            class="navbar-toggler mx-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor02"
+            aria-controls="navbarColor02"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <Link to={`/`} className="nav-link">
+                  Home
                 </Link>
               </li>
-              <li className="nav__link">
-                <button onClick={signOutUser} className="nav__action">
-                  Logout
-                </button>
-              </li>
-            </>
-          )}
-          {!isLoggedIn && (
-            <li className="nav__link">
-              <Link to={`/login`} className="nav__action">
-                Login
-              </Link>
-            </li>
-          )}
-        </ul>
-      </div>
-    </nav>
+              {isLoggedIn && (
+                <>
+                  <li class="nav-item">
+                    <Link to={`/post/create`} className="nav-link">
+                      Admin
+                    </Link>
+                  </li>
+                </>
+              )}
+              {!isLoggedIn && (
+                <li class="nav-item">
+                  <Link to={`/login`} className="nav-link">
+                    Login
+                  </Link>
+                </li>
+              )}
+            </ul>
+            {isLoggedIn && (
+              <button
+                class="btn btn-primary my-2 my-sm-0 ms-auto"
+                type="button"
+                onClick={signOutUser}
+              >
+                Logout
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }

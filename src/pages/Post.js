@@ -34,15 +34,15 @@ export default function Post({ loading, setLoading }) {
 
   return (
     <PageLayout loading={loading} className="post-detail">
-      <div className="">
+      <div className="container">
         {post && (
           <>
-            <h1 className="post-detail__title">
-              {post.data.title}
+            <div className="text-center mb-4">
+              <h2>{post.data.title}</h2>
               {post.data.author && (
-                <span className="card__author">{`@${post.data.author.name}`}</span>
+                <h4 className="text-muted">{`@${post.data.author.name}`}</h4>
               )}
-            </h1>
+            </div>
             <div
               dangerouslySetInnerHTML={{ __html: post.data.content }}
               className="post-detail__content"
